@@ -24,7 +24,7 @@ public struct SessionPreKeyBundle {
     let preKeyId: UInt32
 
     /// The pre key public data
-    let preKey: Data
+    let preKey: Data?
 
     /// The signed pre key id
     let signedPreKeyId: UInt32
@@ -43,7 +43,13 @@ public struct SessionPreKeyBundle {
      - parameter registrationId: The registration id of the remote party
      - parameter deviceId: The device id of the remote party
      - parameter preKeyId: The pre key id
-     - parameter preKey: The pre key public data
+     - parameter preKey: The pre key public data.
+            If no more preKey are available for an user you may pass nil, in which case preKeyId can be set
+            to an arbitrary value.
+            However, without preKey provided, session with this user won't be as secure as with using a one-time prekey
+            because no ephemeral key will be used within shared secret calculation.
+            Note:  `session_builder.c: session_builder_process_pre_key_bundle`
+                PreKeyId won't even be read if preKey public data is null
      - parameter signedPreKeyId: The signed pre key id
      - parameter signedPreKey: The signed pre key public data
      - parameter signature: The signature of the signed pre key
@@ -52,7 +58,7 @@ public struct SessionPreKeyBundle {
     public init(registrationId: UInt32,
                 deviceId: Int32,
                 preKeyId: UInt32,
-                preKey: Data,
+                preKey: Data?,
                 signedPreKeyId: UInt32,
                 signedPreKey: Data,
                 signature: Data,
@@ -71,7 +77,7 @@ public struct SessionPreKeyBundle {
     func pointer() throws -> OpaquePointer {
 
         // Convert pre key
-        let preKeyPtr = try preKey.publicKeyPointer()
+        let preKeyPtr = try preKey?.publicKeyPointer()
         defer { signal_type_unref(preKeyPtr) }
 
         // Convert signed pre key
