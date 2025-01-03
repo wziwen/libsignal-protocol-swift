@@ -21,7 +21,7 @@ Pod::Spec.new do |spec|
 
     spec.source_files = 'libsignal-protocol-swift/**/*.{swift,c,h}'
     spec.public_header_files = ''
-    spec.private_header_files = 'libsignal-protocol-swift/**/*.h'
+    spec.public_header_files = 'libsignal-protocol-swift/**/*.h'
 
     spec.pod_target_xcconfig = { 
     	'SWIFT_INCLUDE_PATHS' => '${SRCROOT}/libsignal-protocol-swift/**',
