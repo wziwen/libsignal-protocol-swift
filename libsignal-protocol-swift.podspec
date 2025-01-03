@@ -20,7 +20,8 @@ Pod::Spec.new do |spec|
     spec.watchos.deployment_target = '4.0'
 
     spec.source_files = 'libsignal-protocol-swift/**/*.{swift,c,h}'
-    spec.public_header_files = 'libsignal-protocol-swift/**/*.h'
+    spec.private_header_files = 'libsignal-protocol-swift/**/*.h'
+    spec.public_header_files = 'libsignal-protocol-swift/libsignal-protocol-c/curve25519/ed25519/additions/*.h'
 
     spec.pod_target_xcconfig = { 
     	'SWIFT_INCLUDE_PATHS' => '${SRCROOT}/libsignal-protocol-swift/**',
